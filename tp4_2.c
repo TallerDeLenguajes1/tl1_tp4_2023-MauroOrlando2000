@@ -11,6 +11,7 @@ struct Tarea {
 void cargarTareas(Tarea **tareaPendiente, int num);
 void pendienteToRealizada(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
 void mostrarTareas(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
+void BuscarTarea(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
 
 int main()
 {
@@ -25,6 +26,7 @@ int main()
     cargarTareas(trabajoPendiente, num);
     pendienteToRealizada(trabajoPendiente, trabajoRealizado, num);
     mostrarTareas(trabajoPendiente, trabajoRealizado, num);
+    BuscarTarea(trabajoPendiente, trabajoRealizado, num);
 
     free(trabajoPendiente);
     free(trabajoRealizado);
@@ -114,4 +116,50 @@ void mostrarTareas(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
             printf("Duracion: %d\n\n", tareaPendiente[i]->Duracion);
         }
     }
+}
+
+void BuscarTarea(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
+{
+    int i=0, j;
+    char palabra[20], *aux1, *aux2;
+
+    fflush(stdin);
+    printf("Que tarea quiere ver?\nIngrese una palabra de la descripcion: ");
+    gets(palabra);
+    
+    while(!aux1 || !aux2 || i==num)
+    {
+        if(tareaPendiente[i] != NULL)
+        {
+            aux1 = strstr(tareaPendiente[i]->Descripcion, palabra);
+            j = i;
+        }
+        if(tareaRealizada[i] != NULL)
+        {
+            aux2 = strstr(tareaRealizada[i]->Descripcion, palabra);
+            j = i;
+        }
+        i++;
+    }
+
+    if(aux1 || aux2)
+    {
+        if(aux1)
+        {
+            printf("**Tarea encontrada**\nTarea %d\n", tareaPendiente[j]->TareaID);
+            printf("%s\n", tareaPendiente[j]->Descripcion);
+            printf("Duracion: %d", tareaPendiente[j]->Duracion);
+        }
+        if(aux2)
+        {
+            printf("**Tarea encontrada**\nTarea %d\n", tareaRealizada[j]->TareaID);
+            printf("%s\n", tareaRealizada[j]->Descripcion);
+            printf("Duracion: %d", tareaRealizada[j]->Duracion);
+        }
+    }
+    else
+    {
+        printf("**Tarea no encontrada**");
+    }
+    
 }
