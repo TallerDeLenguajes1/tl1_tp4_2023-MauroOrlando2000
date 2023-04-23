@@ -86,7 +86,6 @@ void pendienteToRealizada(Tarea **tareaPendiente, Tarea **tareaRealizada, int nu
             tareaRealizada[i]->Descripcion = (char *)malloc(strlen(tareaPendiente[i]->Descripcion)*sizeof(char));
             strcpy(tareaRealizada[i]->Descripcion, tareaPendiente[i]->Descripcion);
             tareaRealizada[i]->Duracion = tareaPendiente[i]->Duracion;
-            free(tareaPendiente[i]);
             tareaPendiente[i] = NULL;
         }
     }
@@ -120,46 +119,35 @@ void mostrarTareas(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
 
 void BuscarTarea(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
 {
-    int i=0, j;
-    char palabra[20], *aux1, *aux2;
+    int i=0, aux=1;
+    char palabra[20];
 
     fflush(stdin);
     printf("Que tarea quiere ver?\nIngrese una palabra de la descripcion: ");
     gets(palabra);
     
-    while(!aux1 || !aux2 || i==num)
+    for(i=0; i<num; i++)
     {
-        if(tareaPendiente[i] != NULL)
+        if(tareaPendiente[i] != NULL && strstr(tareaPendiente[i]->Descripcion, palabra))
         {
-            aux1 = strstr(tareaPendiente[i]->Descripcion, palabra);
-            j = i;
+            printf("**Tarea encontrada**\nTarea %d\n", tareaPendiente[i]->TareaID);
+            printf("%s\n", tareaPendiente[i]->Descripcion);
+            printf("Duracion: %d", tareaPendiente[i]->Duracion);
+            i=5;
+            aux--;
         }
-        if(tareaRealizada[i] != NULL)
+        if(tareaRealizada[i] != NULL && strstr(tareaRealizada[i]->Descripcion, palabra))
         {
-            aux2 = strstr(tareaRealizada[i]->Descripcion, palabra);
-            j = i;
+            printf("**Tarea encontrada**\nTarea %d\n", tareaRealizada[i]->TareaID);
+            printf("%s\n", tareaRealizada[i]->Descripcion);
+            printf("Duracion: %d", tareaRealizada[i]->Duracion);
+            i=5;
+            aux--;
         }
-        i++;
     }
 
-    if(aux1 || aux2)
+    if(aux)
     {
-        if(aux1)
-        {
-            printf("**Tarea encontrada**\nTarea %d\n", tareaPendiente[j]->TareaID);
-            printf("%s\n", tareaPendiente[j]->Descripcion);
-            printf("Duracion: %d", tareaPendiente[j]->Duracion);
-        }
-        if(aux2)
-        {
-            printf("**Tarea encontrada**\nTarea %d\n", tareaRealizada[j]->TareaID);
-            printf("%s\n", tareaRealizada[j]->Descripcion);
-            printf("Duracion: %d", tareaRealizada[j]->Duracion);
-        }
+        puts("**Tarea no encontrada**");
     }
-    else
-    {
-        printf("**Tarea no encontrada**");
-    }
-    
 }
