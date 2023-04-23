@@ -11,7 +11,8 @@ struct Tarea {
 void cargarTareas(Tarea **tareaPendiente, int num);
 void pendienteToRealizada(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
 void mostrarTareas(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
-void BuscarTarea(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
+void BuscarTareaPorId(Tarea **tareaPendiente, Tarea **tareaRealizada);
+void BuscarTareaPorPalabra(Tarea **tareaPendiente, Tarea **tareaRealizada, int num);
 
 int main()
 {
@@ -26,7 +27,8 @@ int main()
     cargarTareas(trabajoPendiente, num);
     pendienteToRealizada(trabajoPendiente, trabajoRealizado, num);
     mostrarTareas(trabajoPendiente, trabajoRealizado, num);
-    BuscarTarea(trabajoPendiente, trabajoRealizado, num);
+    BuscarTareaPorId(trabajoPendiente, trabajoRealizado);
+    BuscarTareaPorPalabra(trabajoPendiente, trabajoRealizado, num);
 
     free(trabajoPendiente);
     free(trabajoRealizado);
@@ -117,7 +119,34 @@ void mostrarTareas(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
     }
 }
 
-void BuscarTarea(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
+void BuscarTareaPorId(Tarea **tareaPendiente, Tarea **tareaRealizada)
+{
+    int aux, aux2=1;
+
+    printf("Que tarea quiere ver?: ");
+    scanf("%d", &aux);
+    aux = aux - 1;
+    if(tareaPendiente[aux] != NULL)
+    {
+        printf("Tarea %d\n", tareaPendiente[aux]->TareaID);
+        printf("%s\n", tareaPendiente[aux]->Descripcion);
+        printf("Duracion: %d\n\n", tareaPendiente[aux]->Duracion);
+        aux2--;
+    }
+    if(tareaRealizada[aux] != NULL)
+    {
+        printf("Tarea %d\n", tareaRealizada[aux]->TareaID);
+        printf("%s\n", tareaRealizada[aux]->Descripcion);
+        printf("Duracion: %d\n\n", tareaRealizada[aux]->Duracion);
+        aux2--;
+    }
+    if(aux2)
+    {
+        puts("**Tarea no encontrada**");
+    }
+}
+
+void BuscarTareaPorPalabra(Tarea **tareaPendiente, Tarea **tareaRealizada, int num)
 {
     int i=0, aux=1;
     char palabra[20];
